@@ -61,8 +61,6 @@ $baralho2 = [
     new Carta(39, "Jigglypuff", "Adora cantar e faz todo mundo dormir.")
 ];
 
-$cartaSecreta = $baralho1[array_rand($baralho1)];
-
 $pontuação = 100;
 $tentativas = 0;
 $jogando = true;
@@ -71,9 +69,6 @@ $soma = 0;
 $proximaAcao = null;
 $baralhos = [$baralho1, $baralho2];
 
-escreverDevagar("Digite seu nome para começar o jogo: ");
-$nomeJogador = trim(fgets(STDIN));
-$cartaSecreta->setNomeJogador($nomeJogador);
 
 while ($jogando) {
 
@@ -81,6 +76,14 @@ while ($jogando) {
         echo "\033[H\033[J";
         menu();
         $opcao = readline(false);
+        echo "\033[H\033[J";
+        telaDeCarregamento(4);
+        echo "\033[H\033[J";
+        $i = readline("Com qual baralho você deseja jogar? (1 para o baralho normal, 2 para o baralho especial): ");
+        $cartaSecreta = $baralhos[$i - 1][array_rand($baralhos[$i - 1])];
+        escreverDevagar("Digite seu nome para começar o jogo: ");
+        $nomeJogador = trim(fgets(STDIN));
+        $cartaSecreta->setNomeJogador($nomeJogador);
         echo "\033[H\033[J";
         telaDeCarregamento(4);
     } else {
@@ -115,7 +118,7 @@ while ($jogando) {
 
 function resultado($palpite)
 {
-    global $cartaSecreta, $pontuação, $jogando, $tentativas, $soma, $vitorias;
+    global $cartaSecreta, $pontuação, $jogando, $tentativas, $soma, $vitorias, $i;
 
     if ($palpite == 0) {
         
@@ -141,7 +144,7 @@ function resultado($palpite)
             $tentativas = 0;
             $pontuação = 100;
            
-            $cartaSecreta = $GLOBALS['baralho1'][array_rand($GLOBALS['baralho1'])];
+            $cartaSecreta = $GLOBALS['baralhos'][$i - 1][array_rand($GLOBALS['baralhos'][$i - 1])];
 
             return 1;
         } else {
@@ -192,10 +195,8 @@ function explicacao()
 function jogar()
 {
 
-    global $tentativas, $cartaSecreta, $baralho1, $baralho2, $pontuação, $baralhos;
+    global $tentativas, $cartaSecreta, $pontuação, $baralhos, $i;
     $tentativas++;
-
-    $i = readline("Com qual baralho você deseja jogar? (1 para o baralho normal, 2 para o baralho especial): ");
 
     echo "\033[H\033[J";
 
