@@ -76,15 +76,15 @@ while ($jogando) {
         echo "\033[H\033[J";
         menu();
         $opcao = readline(false);
-        echo "\033[H\033[J";
+        echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
         telaDeCarregamento(4);
         echo "\033[H\033[J";
         $i = readline("Com qual baralho você deseja jogar? (1 para o baralho normal, 2 para o baralho especial): ");
         $cartaSecreta = $baralhos[$i - 1][array_rand($baralhos[$i - 1])];
         escreverDevagar("Digite seu nome para começar o jogo: ");
-        $nomeJogador = trim(fgets(STDIN));
+        $nomeJogador = trim(fgets(STDIN));// Trim é usado para remover espaços em branco no início e no final do nome do jogador, FGETS é usado para ler a entrada do usuário a partir do terminal e o STDIN é um recurso que representa a entrada padrão do terminal.
         $cartaSecreta->setNomeJogador($nomeJogador);
-        echo "\033[H\033[J";
+        echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
         telaDeCarregamento(4);
     } else {
         $opcao = $proximaAcao;
@@ -93,23 +93,23 @@ while ($jogando) {
 
     switch ($opcao) {
         case 1:
-            echo "\033[H\033[J";
+            echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
             jogar();
             $palpite = (int)readline(false);
             $proximaAcao = resultado($palpite);
             break;
 
         case 2:
-            echo "\033[H\033[J";
+            echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
             explicacao();
-            echo "\033[H\033[J";
+            echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
             telaDeCarregamento(4);
             break;
 
         case 3:
-            echo "\033[H\033[J";
+            echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
             telaDeCarregamento(4);
-            echo "\033[H\033[J";
+            echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
             echo "Obrigado por entrar no Menu do nosso jogo!\n";
             $jogando = false;
             break;
@@ -123,8 +123,8 @@ function resultado($palpite)
     if ($palpite == 0) {
         
         escreverDevagar("Você desistiu do jogo. A carta secreta era: " . $cartaSecreta->getNome() . " (Número: " . $cartaSecreta->getNumero() . ")\n");
-        sleep(2);
-        echo "\033[H\033[J";
+        sleep(2);// Codigo para fazer uma pausa de 2 segundos antes de limpar a tela e mostrar a pontuação final.
+        echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
         escreverDevagar("Pontuação final acumulada do jogador " . $cartaSecreta->getNomeJogador() . ": $soma pontos\n");
         listar();
         escreverDevagar("Obrigado por jogar! Até a próxima.\n");
@@ -139,7 +139,7 @@ function resultado($palpite)
         $soma += $pontuação;
 
         echo "Deseja jogar novamente? (s/n): ";
-        $resposta = strtolower(trim(readline(false)));
+        $resposta = strtolower(trim(readline(false)));// strtolower é usado para converter a resposta do usuário para minúsculas, garantindo que a comparação seja case-insensitive, e trim é usado para remover espaços em branco no início e no final da resposta do usuário.
         if ($resposta === 's') {
             $tentativas = 0;
             $pontuação = 100;
@@ -149,7 +149,7 @@ function resultado($palpite)
             return 1;
         } else {
             sleep(2);
-            echo "\033[H\033[J";
+            echo "\033[H\033[J";// Limpa a tela, apartir do código ANSI(codigo para formatar e colorir textos no terminal), o \033[H move o cursor para a posição inicial da tela e o \033[J limpa a tela a partir da posição atual do cursor.
             echo "Pontuação final acumulada do jogador " . $cartaSecreta->getNomeJogador() . ": $soma pontos\n";
             listar();
             escreverDevagar("Obrigado por jogar! Até a próxima.\n");
@@ -259,9 +259,9 @@ function telaDeCarregamento($segundos = 4)
         $barra = str_repeat("█", $preenchido) . str_repeat("-", $tamanhoBarra - $preenchido);
         
         echo "\rCarregando: [{$barra}] {$porcentagem}%";
-        flush();
+        flush();// flush() é usado para forçar a saída do buffer, garantindo que o progresso seja exibido em tempo real.
         
-        usleep($intervalo);
+        usleep($intervalo);// usleep() é usado para pausar a execução do script por um determinado número de microssegundos, permitindo que o progresso seja exibido de forma gradual.
     }
 
 }
@@ -271,8 +271,8 @@ function escreverDevagar($texto, $velocidade = 50000)
     $tamanho = strlen($texto);
     for ($i = 0; $i < $tamanho; $i++) {
         echo $texto[$i];
-        flush();
-        usleep($velocidade);
+        flush();// flush() é usado para forçar a saída do buffer, garantindo que o texto seja exibido em tempo real.
+        usleep($velocidade);// usleep() é usado para pausar a execução do script por um determinado número de microssegundos, permitindo que o texto seja exibido de forma gradual.
     }
     echo "\n";
 }
